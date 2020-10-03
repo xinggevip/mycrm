@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinggevip.dao.UserMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.xinggevip.domain.User">
+                    <id column="id" property="id"/>
+                    <result column="empid" property="empid"/>
+                    <result column="username" property="username"/>
+                    <result column="password" property="password"/>
+                    <result column="sex" property="sex"/>
+                    <result column="phonenumber" property="phonenumber"/>
+                    <result column="savedate" property="savedate"/>
+                    <result column="money" property="money"/>
+                    <result column="score" property="score"/>
+                    <result column="viptype" property="viptype"/>
+                    <result column="email" property="email"/>
+                    <result column="comment" property="comment"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            id, empid, username, password, sex, phonenumber, savedate, money, score, viptype, email, comment
+        </sql>
+    <select id="selectUserListByKeyWord" resultType="java.util.Map">
+        SELECT
+        t_user.id,
+        t_user.username,
+        t_user.`password`,
+        t_user.sex,
+        t_user.phonenumber,
+        t_user.savedate,
+        t_user.money,
+        t_user.score,
+        t_user.viptype,
+        t_user.email,
+        t_user.`comment`,
+        t_emp.username as empname
+        FROM
+        t_user
+        INNER JOIN t_emp ON t_user.empid = t_emp.id
+        WHERE t_user.username LIKE '%${keyword}%' OR t_user.phonenumber LIKE '%${keyword}%'
+
+    </select>
+
+</mapper>
