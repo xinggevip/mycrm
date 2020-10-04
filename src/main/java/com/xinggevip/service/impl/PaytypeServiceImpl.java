@@ -1,5 +1,6 @@
 package com.xinggevip.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,6 +9,8 @@ import com.xinggevip.dao.PaytypeMapper;
 import com.xinggevip.domain.Paytype;
 import com.xinggevip.service.PaytypeService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -46,5 +49,10 @@ public class PaytypeServiceImpl extends ServiceImpl<PaytypeMapper, Paytype> impl
     @Override
     public Paytype findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Paytype> findAll() {
+        return baseMapper.selectList(null);
     }
 }

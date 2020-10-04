@@ -9,6 +9,8 @@ import com.xinggevip.domain.Room;
 import com.xinggevip.service.RoomService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -46,5 +48,10 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
     @Override
     public Room findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Room> findAll() {
+        return baseMapper.selectList(null);
     }
 }

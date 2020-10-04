@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.xinggevip.dao.PaytypeMapper;
 import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.*;
 import com.xinggevip.service.*;
@@ -28,6 +29,9 @@ class MycrmApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PaytypeMapper paytypeMapper;
 
     @Autowired
     private UserService userService;
@@ -124,6 +128,14 @@ class MycrmApplicationTests {
 
 
 
+    }
+
+    @Test
+    void test5() {
+        List<Paytype> paytypeList = paytypeMapper.selectList(null);
+        for (Paytype paytype : paytypeList) {
+            System.out.println(paytype);
+        }
     }
 
 }

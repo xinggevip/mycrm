@@ -9,6 +9,8 @@ import com.xinggevip.domain.Apt;
 import com.xinggevip.service.AptService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * <p>
  *  服务实现类
@@ -30,6 +32,9 @@ public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptSe
 
     @Override
     public int add(Apt apt){
+        Date date = new Date();
+        apt.setCreatetime(date);
+        apt.setStatus(0);
         return baseMapper.insert(apt);
     }
 

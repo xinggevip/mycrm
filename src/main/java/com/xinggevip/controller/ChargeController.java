@@ -2,7 +2,9 @@ package com.xinggevip.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Charge;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.ChargeService;
+import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -35,8 +37,12 @@ public class ChargeController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Charge charge){
-        return chargeService.add(charge);
+    public HttpResult add(@RequestBody Charge charge){
+        int res = chargeService.add(charge);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.MONEY_NOT_ENOUGH_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.HANDLE_SUCCESS);
     }
 
     @ApiOperation(value = "删除")

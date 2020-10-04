@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinggevip.domain.Room;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -54,4 +56,6 @@ public interface RoomService extends IService<Room> {
      * @return Room
      */
     Room findById(Long id);
+
+    List<Room> findAll();
 }

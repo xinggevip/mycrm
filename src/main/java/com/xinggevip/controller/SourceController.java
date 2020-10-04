@@ -3,6 +3,7 @@ package com.xinggevip.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Source;
 import com.xinggevip.service.SourceService;
+import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -51,15 +53,11 @@ public class SourceController {
         return sourceService.updateData(source);
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
+    @ApiOperation(value = "查询所有数据")
     @GetMapping()
-    public IPage<Source> findListByPage(@RequestParam Integer page,
-                                        @RequestParam Integer pageCount){
-        return sourceService.findListByPage(page, pageCount);
+    public HttpResult findListByPage(){
+        List<Source> sourceList = sourceService.findAll();
+        return HttpResult.success(sourceList);
     }
 
     @ApiOperation(value = "id查询")

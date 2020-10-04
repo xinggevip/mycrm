@@ -2,7 +2,9 @@ package com.xinggevip.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Apt;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.AptService;
+import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -35,8 +37,12 @@ public class AptController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Apt apt){
-        return aptService.add(apt);
+    public HttpResult add(@RequestBody Apt apt){
+        int res = aptService.add(apt);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.SERVER_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.HANDLE_SUCCESS);
     }
 
     @ApiOperation(value = "删除")

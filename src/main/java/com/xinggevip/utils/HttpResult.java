@@ -82,9 +82,9 @@ public class HttpResult<T> implements Serializable {
         return new HttpResult();
     }
 
-    // 带消息返回失败
+    // 带消息返回成功
     public static<T> HttpResult<T> success(ResultCodeEnum resultCode){
-        return new HttpResult<>(resultCode);
+        return new HttpResult<>(resultCode,Boolean.TRUE);
     }
 
     // 自定义返回成功还是失败，带消息

@@ -83,4 +83,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return new PageInfo<>(maps, 3);
     }
+
+    @Override
+    public int updateMoney(Integer userId, BigDecimal moneynum) {
+        User user = baseMapper.selectById(userId);
+        if ((user.getMoney().add(moneynum)).compareTo(BigDecimal.ZERO) ==-1) {
+            return 0;
+        }
+        user.setMoney(user.getMoney().add(moneynum));
+        return baseMapper.updateById(user);
+    }
 }

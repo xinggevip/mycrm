@@ -43,7 +43,7 @@ public class UserController {
     public HttpResult add(@RequestBody User user){
         int res = userService.add(user);
         if (res != 1) {
-            HttpResult<Object> httpResult = HttpResult.success(ResultCodeEnum.ADD_ERROR);
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.ADD_ERROR);
             return httpResult;
         }
         return HttpResult.success(ResultCodeEnum.ADD_SUCCESS,Boolean.TRUE);
@@ -60,7 +60,7 @@ public class UserController {
     public HttpResult update(@RequestBody User user){
         int res = userService.updateData(user);
         if (res != 1) {
-            HttpResult<Object> httpResult = HttpResult.success(ResultCodeEnum.UPDATE_ERROR);
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
             return httpResult;
         }
         return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS,Boolean.TRUE);

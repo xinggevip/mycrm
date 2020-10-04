@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinggevip.domain.Source;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -54,4 +56,6 @@ public interface SourceService extends IService<Source> {
      * @return Source
      */
     Source findById(Long id);
+
+    List<Source> findAll();
 }

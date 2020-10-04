@@ -5,9 +5,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xinggevip.dao.ChargeMapper;
+import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.Charge;
+import com.xinggevip.domain.User;
 import com.xinggevip.service.ChargeService;
+import com.xinggevip.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -20,6 +27,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> implements ChargeService {
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public IPage<Charge> findListByPage(Integer page, Integer pageCount){
         IPage<Charge> wherePage = new Page<>(page, pageCount);
@@ -30,6 +40,15 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
 
     @Override
     public int add(Charge charge){
+        Date date = new Date();
+        charge.setCreatedate(date);
+
+
+        int res = userService.updateMoney(charge.getUserid(), charge.getMoneynum());
+        if (res == 0) {
+            return 0;
+        }
+
         return baseMapper.insert(charge);
     }
 

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xinggevip.domain.Paytype;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -54,4 +56,6 @@ public interface PaytypeService extends IService<Paytype> {
      * @return Paytype
      */
     Paytype findById(Long id);
+
+    List<Paytype> findAll();
 }

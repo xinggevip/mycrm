@@ -9,6 +9,9 @@ import com.xinggevip.domain.Source;
 import com.xinggevip.service.SourceService;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.PSource;
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -46,5 +49,10 @@ public class SourceServiceImpl extends ServiceImpl<SourceMapper, Source> impleme
     @Override
     public Source findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Source> findAll() {
+        return baseMapper.selectList(null);
     }
 }

@@ -8,6 +8,8 @@ public enum ResultCodeEnum {
     ADD_SUCCESS(201, "添加成功"),
     // 通用更新成功
     UPDATE_SUCCESS(202, "更新成功"),
+    // 通用更新成功
+    HANDLE_SUCCESS(202, "操作成功"),
 
     // 重定向
     REDIRECT(301, "redirect"),
@@ -24,6 +26,8 @@ public enum ResultCodeEnum {
     ADD_ERROR(408,"添加失败"),
     // 更新失败
     UPDATE_ERROR(409,"更新失败"),
+    // 更新失败
+    MONEY_NOT_ENOUGH_ERROR(410,"余额不足"),
 
     // 服务器错误
     SERVER_ERROR(500,"server error"),

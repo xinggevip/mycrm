@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xinggevip.domain.User;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -62,5 +63,7 @@ public interface UserService extends IService<User> {
     IPage<User> findListByPageAndNameAndPhoneNum(Integer page, Integer pageCount, String username, String phonenumber);
 
     PageInfo<Map> selectUserListByKeyWord(Integer page, Integer pageCount, String keyword);
+
+    int updateMoney(Integer userId, BigDecimal moneynum);
 
 }

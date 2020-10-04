@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -39,7 +40,6 @@ public class Charge implements Serializable {
     @ApiModelProperty(value = "用户id")
     private Integer userid;
 
-
     @ApiModelProperty(value = "预约id")
     private Integer aptid;
 
@@ -51,6 +51,9 @@ public class Charge implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String comment;
+
+    @ApiModelProperty(value = "创建日期")
+    private Date createdate;
 
 
 }
