@@ -81,17 +81,20 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
     }
 
     @Override
-    public PageInfo<Map> selectChargeListByKeyword(com.xinggevip.vo.Page page) {
+    public PageInfo selectChargeListByKeyword(com.xinggevip.vo.Page page) {
         String keyword = page.getKeyword();
         if (keyword == null) keyword = "";
 
         Integer pageNum = page.getPageNum();
         Integer pageSize = page.getPageSize();
+        Date starttime = page.getStarttime();
+        Date endtime = page.getEndtime();
+        Integer roomid = page.getRoomid();
 
         String orderBy = "t_charge.id  desc";
 
         PageHelper.startPage(pageNum, pageSize, orderBy);
-        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword);
+        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid);
 
         return new PageInfo<>(maps, 5);
     }

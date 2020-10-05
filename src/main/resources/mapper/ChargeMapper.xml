@@ -31,15 +31,27 @@
         t_emp.username AS empname,
         t_user.username,
         t_paytype.paytype,
-        t_user.phonenumber
+        t_user.phonenumber,
+        t_room.`name`,
+        t_source.sourcename,
+        t_apt.roomid,
+        t_apt.sourceid
         FROM
         t_charge
         INNER JOIN t_emp ON t_charge.empid = t_emp.id
         INNER JOIN t_user ON t_user.empid = t_emp.id AND t_charge.userid = t_user.id
         INNER JOIN t_apt ON t_apt.empid = t_emp.id AND t_apt.userid = t_user.id
         INNER JOIN t_paytype ON t_charge.paytypeid = t_paytype.id AND t_apt.paytypeid = t_paytype.id
-
-        WHERE t_user.username LIKE '%${keyword}%' OR t_user.phonenumber LIKE '%{keyword}%'
+        INNER JOIN t_room ON t_apt.roomid = t_room.id
+        INNER JOIN t_source ON t_apt.sourceid = t_source.id
+        WHERE (t_user.username LIKE '%${keyword}%' OR t_user.phonenumber LIKE '%${keyword}%')
+        AND t_charge.moneynum &lt; 0
+        <if test="starttime != null and endtime != null">
+            AND (t_charge.createdate &gt;= #{starttime,jdbcType=DATE} AND t_charge.createdate &lt; #{endtime,jdbcType=DATE}  )
+        </if>
+        <if test="roomid != null and roomid != 0">
+        AND t_apt.roomid = ${roomid}
+        </if>
     </select>
 
 </mapper>

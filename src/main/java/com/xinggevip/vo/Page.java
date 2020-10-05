@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -42,6 +43,15 @@ public class Page implements Serializable {
 
     @ApiModelProperty(value = "预约状态")
     private Integer status;
+
+    @ApiModelProperty(value = "开始时间")
+    private Date starttime;
+
+    @ApiModelProperty(value = "结束时间")
+    private Date endtime;
+
+    @ApiModelProperty(value = "房间id")
+    private Integer roomid;
 
 
 
