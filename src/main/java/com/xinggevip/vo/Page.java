@@ -40,6 +40,9 @@ public class Page implements Serializable {
     @ApiModelProperty(value = "关键字")
     private String keyword;
 
+    @ApiModelProperty(value = "预约状态")
+    private Integer status;
+
 
 
 }

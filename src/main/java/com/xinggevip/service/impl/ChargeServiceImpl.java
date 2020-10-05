@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.dao.ChargeMapper;
 import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.Charge;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -53,6 +57,15 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
     }
 
     @Override
+    public int notSubMoney(Charge charge) {
+        Date date = new Date();
+        charge.setCreatedate(date);
+
+        return baseMapper.insert(charge);
+    }
+
+
+    @Override
     public int delete(Long id){
         return baseMapper.deleteById(id);
     }
@@ -65,5 +78,21 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
     @Override
     public Charge findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public PageInfo<Map> selectChargeListByKeyword(com.xinggevip.vo.Page page) {
+        String keyword = page.getKeyword();
+        if (keyword == null) keyword = "";
+
+        Integer pageNum = page.getPageNum();
+        Integer pageSize = page.getPageSize();
+
+        String orderBy = "t_charge.id  desc";
+
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword);
+
+        return new PageInfo<>(maps, 5);
     }
 }

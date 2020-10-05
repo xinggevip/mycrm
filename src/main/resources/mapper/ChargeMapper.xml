@@ -18,5 +18,28 @@
     <sql id="Base_Column_List">
             id, empid, userid, aptid, paytypeid, moneynum, comment, createdate
         </sql>
+    <select id="selectChargeListByKeyword" resultType="java.util.Map">
+        SELECT
+        t_charge.id,
+        t_charge.empid,
+        t_charge.userid,
+        t_charge.aptid,
+        t_charge.paytypeid,
+        t_charge.moneynum,
+        t_charge.`comment`,
+        t_charge.createdate,
+        t_emp.username AS empname,
+        t_user.username,
+        t_paytype.paytype,
+        t_user.phonenumber
+        FROM
+        t_charge
+        INNER JOIN t_emp ON t_charge.empid = t_emp.id
+        INNER JOIN t_user ON t_user.empid = t_emp.id AND t_charge.userid = t_user.id
+        INNER JOIN t_apt ON t_apt.empid = t_emp.id AND t_apt.userid = t_user.id
+        INNER JOIN t_paytype ON t_charge.paytypeid = t_paytype.id AND t_apt.paytypeid = t_paytype.id
+
+        WHERE t_user.username LIKE '%${keyword}%' OR t_user.phonenumber LIKE '%{keyword}%'
+    </select>
 
 </mapper>

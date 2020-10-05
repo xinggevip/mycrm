@@ -4,12 +4,24 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.dao.AptMapper;
 import com.xinggevip.domain.Apt;
+import com.xinggevip.domain.Charge;
+import com.xinggevip.exception.EmpLoginException;
+import com.xinggevip.exception.ServerException;
 import com.xinggevip.service.AptService;
+import com.xinggevip.service.ChargeService;
+import net.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,7 +32,11 @@ import java.util.Date;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptService {
+
+    @Autowired
+    private ChargeService chargeService;
 
     @Override
     public IPage<Apt> findListByPage(Integer page, Integer pageCount){
@@ -45,11 +61,91 @@ public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptSe
 
     @Override
     public int updateData(Apt apt){
-        return baseMapper.updateById(apt);
+        System.out.println(apt);
+        Integer status = apt.getStatus();
+
+        int res1 = 0;
+        int res2 = 0;
+
+        if (status.equals(0)) {
+            // 更新预约信息
+            return baseMapper.updateById(apt);
+        } else if (status.equals(1)) {
+            // 结算
+            Charge charge = new Charge();
+            charge.setPaytypeid(apt.getPaytypeid());
+            charge.setMoneynum(apt.getPrice());
+            charge.setAptid(apt.getId());
+            charge.setUserid(apt.getUserid());
+            charge.setEmpid(apt.getEmpid());
+
+            int i = apt.getPrice().compareTo(BigDecimal.ZERO);
+            if(i == -1){
+                //num小于0  例如：num=-10.00
+            }
+            if(i == 0){
+                //num等于0，  num=0.00
+            }
+            if(i == 1){
+                //num大于0  例如：num=10.00
+                charge.setMoneynum(apt.getPrice().negate());
+            }
+
+            // 余额支付扣除用户余额
+            if (apt.getPaytypeid().equals(5)) {
+                charge.setComment("余额支付，系统自动从余额扣除");
+                res2 = chargeService.add(charge);
+            } else {
+                charge.setComment("非余额支付，仅记录");
+                res2 = chargeService.notSubMoney(charge);
+            }
+
+
+        } else if (status.equals(2)) {
+            System.out.println("来到了放弃");
+            // 放弃
+            return baseMapper.updateById(apt);
+        }else {
+            return 0;
+        }
+
+        res1 = baseMapper.updateById(apt);
+        if (res1 == 1 && res2 == 1) {
+            return 1;
+        }else{
+            throw new ServerException();
+        }
     }
 
     @Override
     public Apt findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public PageInfo<Map> selectAptListByKeyword(com.xinggevip.vo.Page page) {
+        String keyword = page.getKeyword();
+        Integer status = page.getStatus();
+        if (keyword == null) keyword = "";
+        if (status == null) status = 0;
+
+        Integer pageNum = page.getPageNum();
+        Integer pageSize = page.getPageSize();
+
+        String orderBy = "t_apt.starttime  asc";//按照排序字段 倒序 排序
+
+        if (status.equals(0)) {
+            orderBy = "t_apt.starttime  asc";
+        }
+        if (status.equals(1) || status.equals(2)) {
+            orderBy = "t_apt.starttime  desc";
+        }
+
+
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+
+        List<Map> maps = baseMapper.selectAptListByKeyword(keyword, status);
+
+        return new PageInfo<>(maps, 5);
     }
 }

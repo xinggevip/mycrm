@@ -2,7 +2,11 @@ package com.xinggevip.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.domain.Charge;
+import com.xinggevip.vo.Page;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +35,8 @@ public interface ChargeService extends IService<Charge> {
      */
     int add(Charge charge);
 
+    int notSubMoney(Charge charge);
+
     /**
      * 删除
      *
@@ -54,4 +60,6 @@ public interface ChargeService extends IService<Charge> {
      * @return Charge
      */
     Charge findById(Long id);
+
+    PageInfo selectChargeListByKeyword(Page page);
 }

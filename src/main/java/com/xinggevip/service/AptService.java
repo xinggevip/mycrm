@@ -2,7 +2,11 @@ package com.xinggevip.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.domain.Apt;
+import com.xinggevip.vo.Page;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -54,4 +58,6 @@ public interface AptService extends IService<Apt> {
      * @return Apt
      */
     Apt findById(Long id);
+
+    PageInfo<Map> selectAptListByKeyword(Page page);
 }

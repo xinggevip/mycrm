@@ -63,7 +63,7 @@ public class UserController {
             HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
             return httpResult;
         }
-        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS,Boolean.TRUE);
+        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @ApiOperation(value = "查询分页数据")

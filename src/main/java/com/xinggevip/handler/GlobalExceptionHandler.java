@@ -2,6 +2,7 @@ package com.xinggevip.handler;
 
 import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.exception.EmpLoginException;
+import com.xinggevip.exception.ServerException;
 import com.xinggevip.utils.HttpResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,6 +36,12 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public HttpResult userLoginExceptionHandle(){
         return HttpResult.failure(ResultCodeEnum.LOGIN_ERROR);
+    }
+
+    @ExceptionHandler(ServerException.class)
+    @ResponseBody
+    public HttpResult serverExceptionHandle(){
+        return HttpResult.failure(ResultCodeEnum.SERVER_ERROR);
     }
 
     /**

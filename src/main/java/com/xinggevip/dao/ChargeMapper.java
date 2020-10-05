@@ -2,6 +2,10 @@ package com.xinggevip.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xinggevip.domain.Charge;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +16,5 @@ import com.xinggevip.domain.Charge;
  * @since 2020-10-02
  */
 public interface ChargeMapper extends BaseMapper<Charge> {
-
+    List<Map> selectChargeListByKeyword(@Param("keyword") String keyword);
 }

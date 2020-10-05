@@ -28,6 +28,8 @@ public enum ResultCodeEnum {
     UPDATE_ERROR(409,"更新失败"),
     // 更新失败
     MONEY_NOT_ENOUGH_ERROR(410,"余额不足"),
+    // 操作失败
+    HANDLE_ERROR(411,"操作失败"),
 
     // 服务器错误
     SERVER_ERROR(500,"server error"),

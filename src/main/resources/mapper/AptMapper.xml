@@ -23,5 +23,38 @@
         <sql id="Base_Column_List">
             id, empid, userid, roomid, sourceid, paytypeid, personnum, starttime, endtime, price, createtime, status, comment
         </sql>
+    <select id="selectAptListByKeyword" resultType="java.util.Map">
+        SELECT
+        t_user.username,
+        t_user.sex,
+        t_user.phonenumber,
+        t_emp.username AS empname,
+        t_apt.starttime,
+        t_apt.endtime,
+        t_apt.price,
+        t_apt.createtime,
+        t_apt.`status`,
+        t_apt.`comment`,
+        t_apt.personnum,
+        t_paytype.paytype,
+        t_room.`name`,
+        t_source.sourcename,
+        t_apt.id,
+        t_apt.roomid,
+        t_apt.sourceid,
+        t_apt.paytypeid,
+        t_apt.userid,
+        t_apt.empid,
+        t_user.money
+        FROM
+        t_apt
+        INNER JOIN t_emp ON t_apt.empid = t_emp.id
+        LEFT JOIN t_paytype ON t_paytype.id = t_apt.paytypeid
+        INNER JOIN t_room ON t_apt.roomid = t_room.id
+        INNER JOIN t_source ON t_apt.sourceid = t_source.id
+        INNER JOIN t_user ON t_user.empid = t_emp.id AND t_apt.userid = t_user.id
+        WHERE (t_user.username LIKE '%${keyword}%' OR t_user.phonenumber LIKE '%${keyword}%') AND t_apt.`status` = ${status}
+
+    </select>
 
 </mapper>

@@ -5,6 +5,7 @@ import com.xinggevip.domain.Apt;
 import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.AptService;
 import com.xinggevip.utils.HttpResult;
+import com.xinggevip.vo.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,19 +54,19 @@ public class AptController {
 
     @ApiOperation(value = "更新")
     @PutMapping()
-    public int update(@RequestBody Apt apt){
-        return aptService.updateData(apt);
+    public HttpResult update(@RequestBody Apt apt){
+        int res = aptService.updateData(apt);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.HANDLE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.HANDLE_SUCCESS);
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Apt> findListByPage(@RequestParam Integer page,
-                                     @RequestParam Integer pageCount){
-        return aptService.findListByPage(page, pageCount);
+    @ApiOperation(value = "根据关键字查询分页数据")
+    @PostMapping("/getlist")
+    public HttpResult findListByPage(@RequestBody Page page){
+        return HttpResult.success(aptService.selectAptListByKeyword(page));
     }
 
     @ApiOperation(value = "id查询")

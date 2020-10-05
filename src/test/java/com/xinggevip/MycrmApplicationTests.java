@@ -138,4 +138,19 @@ class MycrmApplicationTests {
         }
     }
 
+    @Test
+    void test6() {
+        com.xinggevip.vo.Page page = new com.xinggevip.vo.Page();
+        page.setKeyword("女士");
+        page.setPageNum(1);
+        page.setPageSize(10);
+        page.setStatus(0);
+
+        PageInfo<Map> mapPageInfo = aptService.selectAptListByKeyword(page);
+        List<Map> list = mapPageInfo.getList();
+        for (Map map : list) {
+            System.out.println(map);
+        }
+    }
+
 }
