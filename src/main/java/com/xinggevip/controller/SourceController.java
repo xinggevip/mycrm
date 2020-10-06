@@ -2,6 +2,7 @@ package com.xinggevip.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Source;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.SourceService;
 import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
@@ -37,27 +38,38 @@ public class SourceController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Source source){
-        return sourceService.add(source);
+    public HttpResult add(@RequestBody Source source){
+        int res = sourceService.add(source);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.ADD_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return sourceService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = sourceService.delete(id);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
     @PutMapping()
-    public int update(@RequestBody Source source){
-        return sourceService.updateData(source);
+    public HttpResult update(@RequestBody Source source){
+        int res = sourceService.updateData(source);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @ApiOperation(value = "查询所有数据")
     @GetMapping()
     public HttpResult findListByPage(){
-        List<Source> sourceList = sourceService.findAll();
-        return HttpResult.success(sourceList);
+        return HttpResult.success(sourceService.findAll());
     }
 
     @ApiOperation(value = "id查询")

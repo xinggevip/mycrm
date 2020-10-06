@@ -3,6 +3,7 @@ package com.xinggevip.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import com.xinggevip.domain.Emp;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.exception.EmpLoginException;
 import com.xinggevip.service.EmpService;
 import com.xinggevip.utils.HttpResult;
@@ -56,31 +57,42 @@ public class EmpController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Emp emp){
-        return empService.add(emp);
+    public HttpResult add(@RequestBody Emp emp){
+        int res = empService.add(emp);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.ADD_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return empService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = empService.delete(id);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.HANDLE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.HANDLE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
     @PutMapping()
-    public int update(@RequestBody Emp emp){
-        return empService.updateData(emp);
+    public HttpResult update(@RequestBody Emp emp){
+
+        int res = empService.updateData(emp);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
+    @ApiOperation(value = "查询所有数据")
     @GetMapping()
-    public IPage<Emp> findListByPage(@RequestParam Integer page,
-                                     @RequestParam Integer pageCount){
-        return empService.findListByPage(page, pageCount);
+    public HttpResult findListByPage(){
+        return HttpResult.success(empService.selectAllEmpList());
     }
 
     @ApiOperation(value = "id查询")

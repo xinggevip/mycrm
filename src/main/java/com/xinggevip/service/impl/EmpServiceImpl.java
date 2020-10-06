@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.dao.EmpMapper;
 import com.xinggevip.domain.Emp;
 import com.xinggevip.service.EmpService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -47,5 +50,12 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpSe
     public Emp findById(Long id){
         return  baseMapper.selectById(id);
     }
+
+    @Override
+    public List<Emp> selectAllEmpList() {
+
+        return baseMapper.selectList(null);
+    }
+
 
 }

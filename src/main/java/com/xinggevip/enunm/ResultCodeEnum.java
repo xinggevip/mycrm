@@ -10,6 +10,8 @@ public enum ResultCodeEnum {
     UPDATE_SUCCESS(202, "更新成功"),
     // 通用更新成功
     HANDLE_SUCCESS(202, "操作成功"),
+    // 通用删除成功
+    DELETE_SUCCESS(202, "删除成功"),
 
     // 重定向
     REDIRECT(301, "redirect"),
@@ -30,9 +32,12 @@ public enum ResultCodeEnum {
     MONEY_NOT_ENOUGH_ERROR(410,"余额不足"),
     // 操作失败
     HANDLE_ERROR(411,"操作失败"),
+    // 删除失败
+    DELETE_ERROR(412, "删除失败"),
 
     // 服务器错误
     SERVER_ERROR(500,"server error"),
+
 
 
 

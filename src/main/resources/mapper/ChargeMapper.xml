@@ -17,7 +17,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
             id, empid, userid, aptid, paytypeid, moneynum, comment, createdate
-        </sql>
+    </sql>
     <select id="selectChargeListByKeyword" resultType="java.util.Map">
         SELECT
         t_charge.id,
@@ -35,7 +35,8 @@
         t_room.`name`,
         t_source.sourcename,
         t_apt.roomid,
-        t_apt.sourceid
+        t_apt.sourceid,
+        t_apt.price
         FROM
         t_charge
         INNER JOIN t_emp ON t_charge.empid = t_emp.id

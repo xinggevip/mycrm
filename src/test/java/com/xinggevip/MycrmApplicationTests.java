@@ -162,28 +162,16 @@ class MycrmApplicationTests {
         com.xinggevip.vo.Page page = new com.xinggevip.vo.Page();
         page.setKeyword("159");
         page.setPageNum(1);
-        page.setPageNum(10);
+        page.setPageSize(10);
         page.setStarttime(new Date(1601481600000L));
         page.setEndtime(new Date(1601740800000L));
-        page.setRoomid(1);
+//        page.setRoomid(1);
 
-//        PageInfo pageInfo = chargeService.selectChargeListByKeyword(page);
-//        List<Map> list = pageInfo.getList();
-//        for (Map map : list) {
-//            System.out.println(map);
-//        }
-
-        String keyword = page.getKeyword();
-        if (keyword == null) keyword = "";
-
-        Integer pageNum = page.getPageNum();
-        Integer pageSize = page.getPageSize();
-        Date starttime = page.getStarttime();
-        Date endtime = page.getEndtime();
-        Integer roomid = page.getRoomid();
-
-        chargeMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid);
-
+        PageInfo pageInfo = chargeService.selectChargeListByKeyword(page);
+        List<Map> list = pageInfo.getList();
+        for (Map map : list) {
+            System.out.println(map);
+        }
 
 
     }

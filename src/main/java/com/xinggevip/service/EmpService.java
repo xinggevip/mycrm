@@ -2,7 +2,10 @@ package com.xinggevip.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.xinggevip.domain.Emp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -54,5 +57,7 @@ public interface EmpService extends IService<Emp> {
      * @return Emp
      */
     Emp findById(Long id);
+
+    List<Emp> selectAllEmpList();
 
 }

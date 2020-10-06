@@ -2,6 +2,7 @@ package com.xinggevip.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Paytype;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.PaytypeService;
 import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
@@ -37,20 +38,36 @@ public class PaytypeController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Paytype paytype){
-        return paytypeService.add(paytype);
+    public HttpResult add(@RequestBody Paytype paytype){
+        int res = paytypeService.add(paytype);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.ADD_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS);
     }
+
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return paytypeService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = paytypeService.delete(id);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
     @PutMapping()
-    public int update(@RequestBody Paytype paytype){
-        return paytypeService.updateData(paytype);
+    public HttpResult<Object> update(@RequestBody Paytype paytype){
+        int res = paytypeService.updateData(paytype);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @ApiOperation(value = "查询所有数据")
