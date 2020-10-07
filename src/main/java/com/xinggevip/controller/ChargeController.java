@@ -70,6 +70,13 @@ public class ChargeController {
         return HttpResult.success(chargeService.selectChargeListByKeyword(page));
     }
 
+    @ApiOperation(value = "获取统计数据")
+    @PostMapping("/getcount")
+    public HttpResult getCount(@RequestBody Page page){
+        return HttpResult.success(chargeService.getCountInfo(page));
+    }
+
+
     @ApiOperation(value = "id查询")
     @GetMapping("{id}")
     public Charge findById(@PathVariable Long id){

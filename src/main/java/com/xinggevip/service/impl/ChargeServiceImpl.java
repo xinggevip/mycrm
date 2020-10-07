@@ -15,6 +15,7 @@ import com.xinggevip.exception.ServerException;
 import com.xinggevip.service.AptService;
 import com.xinggevip.service.ChargeService;
 import com.xinggevip.service.UserService;
+import com.xinggevip.vo.CountInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,5 +126,68 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
         List<Map> maps = baseMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid, flag, sourceid, paytypeid);
 
         return new PageInfo<>(maps, 5);
+    }
+
+    @Override
+    public CountInfo getCountInfo(com.xinggevip.vo.Page page) {
+        String keyword = page.getKeyword();
+        if (keyword == null) keyword = "";
+
+        Date starttime = page.getStarttime();
+        Date endtime = page.getEndtime();
+        Integer roomid = page.getRoomid();
+        Integer flag = page.getFlag();
+        Integer sourceid = page.getSourceid();
+        Integer paytypeid = page.getPaytypeid();
+
+        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid, flag, sourceid, paytypeid);
+
+        CountInfo countInfo = new CountInfo();
+        countInfo.setRoomMoneyNum(0);
+        countInfo.setRoomMoney(BigDecimal.valueOf(0));
+        countInfo.setOtherMoneyNum(0);
+        countInfo.setOtherMoney(BigDecimal.valueOf(0));
+        countInfo.setChongMoneyNum(0);
+        countInfo.setChongMoney(BigDecimal.valueOf(0));
+
+        for (Map map : maps) {
+            BigDecimal moneynum = (BigDecimal)map.get("moneynum");
+            Integer aptid = (Integer)map.get("aptid");
+
+            int i = moneynum.compareTo(BigDecimal.ZERO);
+            if(i == -1){
+                //num小于0  例如：num=-10.00
+                if (aptid != null) {
+                    countInfo.setRoomMoneyNum(countInfo.getRoomMoneyNum() + 1);
+                    countInfo.setRoomMoney(countInfo.getRoomMoney().add(moneynum.abs()));
+                }else{
+                    countInfo.setOtherMoneyNum(countInfo.getOtherMoneyNum() + 1);
+                    countInfo.setOtherMoney(countInfo.getOtherMoney().add(moneynum.abs()));
+                }
+            }
+            if(i == 0){
+                //num等于0，  num=0.00
+            }
+            if(i == 1){
+                //num大于0  例如：num=10.00
+                countInfo.setChongMoneyNum(countInfo.getChongMoneyNum() + 1);
+                countInfo.setChongMoney(countInfo.getChongMoney().add(moneynum.abs()));
+            }
+
+        }
+
+        countInfo.setAllMoneyNum(
+                countInfo.getChongMoneyNum() +
+                countInfo.getRoomMoneyNum() +
+                countInfo.getOtherMoneyNum()
+        );
+
+        countInfo.setAllMoney(
+                countInfo.getChongMoney().
+                add(countInfo.getRoomMoney()).
+                add(countInfo.getOtherMoney())
+        );
+
+        return countInfo;
     }
 }

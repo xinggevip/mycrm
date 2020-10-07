@@ -15,6 +15,7 @@ import com.xinggevip.dao.PaytypeMapper;
 import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.*;
 import com.xinggevip.service.*;
+import com.xinggevip.vo.CountInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -181,5 +182,18 @@ class MycrmApplicationTests {
 
 
     }
+
+    @Test
+    void test8() {
+        com.xinggevip.vo.Page page = new com.xinggevip.vo.Page();
+        page.setKeyword("");
+
+        CountInfo countInfo = chargeService.getCountInfo(page);
+        System.out.println(countInfo);
+
+    }
+
+
+
 
 }

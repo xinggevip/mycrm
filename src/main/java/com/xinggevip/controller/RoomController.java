@@ -2,6 +2,7 @@ package com.xinggevip.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xinggevip.domain.Room;
+import com.xinggevip.enunm.ResultCodeEnum;
 import com.xinggevip.service.RoomService;
 import com.xinggevip.utils.HttpResult;
 import io.swagger.annotations.Api;
@@ -37,20 +38,32 @@ public class RoomController {
 
     @ApiOperation(value = "新增")
     @PostMapping()
-    public int add(@RequestBody Room room){
-        return roomService.add(room);
+    public HttpResult add(@RequestBody Room room){
+        int res = roomService.add(room);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.ADD_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return roomService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = roomService.delete(id);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
     @PutMapping()
-    public int update(@RequestBody Room room){
-        return roomService.updateData(room);
+    public HttpResult update(@RequestBody Room room){
+        int res = roomService.updateData(room);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @ApiOperation(value = "查询所有数据")

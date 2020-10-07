@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xinggevip.domain.Charge;
+import com.xinggevip.vo.CountInfo;
 import com.xinggevip.vo.Page;
 
 import java.util.Map;
@@ -62,4 +63,6 @@ public interface ChargeService extends IService<Charge> {
     Charge findById(Long id);
 
     PageInfo selectChargeListByKeyword(Page page);
+
+    CountInfo getCountInfo(Page page);
 }

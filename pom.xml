@@ -8,6 +8,7 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+<!--    <packaging>war</packaging>-->
     <groupId>com.xinggevip</groupId>
     <artifactId>mycrm</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -19,6 +20,17 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>javax.servlet-api</artifactId>-->
+<!--            <version>3.0.1</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -121,6 +133,7 @@
     </dependencies>
 
     <build>
+<!--        <finalName>mycrm</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
