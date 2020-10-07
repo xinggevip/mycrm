@@ -17,5 +17,12 @@ import java.util.Map;
  * @since 2020-10-02
  */
 public interface ChargeMapper extends BaseMapper<Charge> {
-    List<Map> selectChargeListByKeyword(@Param("keyword") String keyword, @Param("starttime") Date starttime, @Param("endtime") Date endtime, @Param("roomid") Integer roomid);
+    List<Map> selectChargeListByKeyword(@Param("keyword") String keyword,
+                                        @Param("starttime") Date starttime,
+                                        @Param("endtime") Date endtime,
+                                        @Param("roomid") Integer roomid,
+                                        @Param("flag") Integer flag,
+                                        @Param("sourceid") Integer sourcesid,
+                                        @Param("paytypeid") Integer paytypeid
+    );
 }

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * <p>
@@ -48,8 +49,12 @@ public class AptController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return aptService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = aptService.delete(id);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
@@ -57,8 +62,7 @@ public class AptController {
     public HttpResult update(@RequestBody Apt apt){
         int res = aptService.updateData(apt);
         if (res != 1) {
-            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.HANDLE_ERROR);
-            return httpResult;
+            return HttpResult.failure(ResultCodeEnum.HANDLE_ERROR);
         }
         return HttpResult.success(ResultCodeEnum.HANDLE_SUCCESS);
     }
@@ -71,8 +75,16 @@ public class AptController {
 
     @ApiOperation(value = "id查询")
     @GetMapping("{id}")
-    public Apt findById(@PathVariable Long id){
-        return aptService.findById(id);
+    public HttpResult findById(@PathVariable Integer id){
+        Map map = aptService.selectAptById(id);
+        if (map == null) {
+            return HttpResult.failure(ResultCodeEnum.NOT_FOUND);
+        }
+
+        return HttpResult.success(map);
     }
+
+
+
 
 }

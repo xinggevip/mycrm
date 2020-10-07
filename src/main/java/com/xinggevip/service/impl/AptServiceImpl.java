@@ -1,5 +1,6 @@
 package com.xinggevip.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -7,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xinggevip.dao.AptMapper;
+import com.xinggevip.dao.ChargeMapper;
 import com.xinggevip.domain.Apt;
 import com.xinggevip.domain.Charge;
 import com.xinggevip.exception.EmpLoginException;
@@ -38,6 +40,9 @@ public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptSe
     @Autowired
     private ChargeService chargeService;
 
+    @Autowired
+    private ChargeMapper chargeMapper;
+
     @Override
     public IPage<Apt> findListByPage(Integer page, Integer pageCount){
         IPage<Apt> wherePage = new Page<>(page, pageCount);
@@ -56,6 +61,16 @@ public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptSe
 
     @Override
     public int delete(Long id){
+
+        // 根据apt查找账单，如果不为null则用server删除
+        QueryWrapper<Charge> wrapper = new QueryWrapper<>();
+        wrapper.eq("aptid", id);
+        Charge charge = chargeMapper.selectOne(wrapper);
+
+        if (charge != null) {
+            return chargeService.delete(Long.valueOf(charge.getId()));
+        }
+
         return baseMapper.deleteById(id);
     }
 
@@ -147,5 +162,10 @@ public class AptServiceImpl extends ServiceImpl<AptMapper, Apt> implements AptSe
         List<Map> maps = baseMapper.selectAptListByKeyword(keyword, status);
 
         return new PageInfo<>(maps, 5);
+    }
+
+    @Override
+    public Map selectAptById(Integer aptid) {
+        return baseMapper.selectAptById(aptid);
     }
 }

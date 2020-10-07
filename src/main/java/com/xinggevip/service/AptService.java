@@ -60,4 +60,8 @@ public interface AptService extends IService<Apt> {
     Apt findById(Long id);
 
     PageInfo<Map> selectAptListByKeyword(Page page);
+
+    Map selectAptById(Integer aptid);
+
+
 }

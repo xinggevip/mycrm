@@ -43,16 +43,20 @@ public class UserController {
     public HttpResult add(@RequestBody User user){
         int res = userService.add(user);
         if (res != 1) {
-            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.ADD_ERROR);
-            return httpResult;
+            return HttpResult.failure(ResultCodeEnum.ADD_ERROR);
         }
-        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS,Boolean.TRUE);
+        return HttpResult.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return userService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = userService.delete(id);
+        if (res != 1) {
+            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+            return httpResult;
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")
@@ -60,8 +64,7 @@ public class UserController {
     public HttpResult update(@RequestBody User user){
         int res = userService.updateData(user);
         if (res != 1) {
-            HttpResult<Object> httpResult = HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
-            return httpResult;
+            return HttpResult.failure(ResultCodeEnum.UPDATE_ERROR);
         }
         return HttpResult.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

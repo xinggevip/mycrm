@@ -8,6 +8,7 @@ import com.xinggevip.dao.RoomMapper;
 import com.xinggevip.domain.Room;
 import com.xinggevip.service.RoomService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements RoomService {
 
     @Override

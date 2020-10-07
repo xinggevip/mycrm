@@ -163,9 +163,15 @@ class MycrmApplicationTests {
         page.setKeyword("159");
         page.setPageNum(1);
         page.setPageSize(10);
-        page.setStarttime(new Date(1601481600000L));
-        page.setEndtime(new Date(1601740800000L));
+        page.setPaytypeid(1);
+        page.setSourceid(2);
+//        page.setStarttime(new Date(1601481600000L));
+//        page.setEndtime(new Date(1601740800000L));
 //        page.setRoomid(1);
+
+        // 不指定
+        page.setFlag(3);
+        page.setRoomid(2);
 
         PageInfo pageInfo = chargeService.selectChargeListByKeyword(page);
         List<Map> list = pageInfo.getList();

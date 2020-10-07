@@ -6,14 +6,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xinggevip.dao.AptMapper;
 import com.xinggevip.dao.ChargeMapper;
 import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.Charge;
 import com.xinggevip.domain.User;
+import com.xinggevip.exception.ServerException;
+import com.xinggevip.service.AptService;
 import com.xinggevip.service.ChargeService;
 import com.xinggevip.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,10 +33,17 @@ import java.util.Map;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> implements ChargeService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AptService aptService;
+
+    @Autowired
+    private AptMapper aptMapper;
 
     @Override
     public IPage<Charge> findListByPage(Integer page, Integer pageCount){
@@ -67,7 +78,21 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
 
     @Override
     public int delete(Long id){
-        return baseMapper.deleteById(id);
+        Charge charge = baseMapper.selectById(id);
+        Integer aptid = charge.getAptid();
+        int res1 = 1;
+        int res2 = 0;
+
+        res2 = baseMapper.deleteById(id);
+
+        if (aptid != null) {
+            res1 = aptMapper.deleteById(aptid);
+        }
+        if (res1 != 1 || res2 != 1) {
+            throw new ServerException();
+        }
+
+        return 1;
     }
 
     @Override
@@ -90,11 +115,14 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
         Date starttime = page.getStarttime();
         Date endtime = page.getEndtime();
         Integer roomid = page.getRoomid();
+        Integer flag = page.getFlag();
+        Integer sourceid = page.getSourceid();
+        Integer paytypeid = page.getPaytypeid();
 
         String orderBy = "t_charge.id  desc";
 
         PageHelper.startPage(pageNum, pageSize, orderBy);
-        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid);
+        List<Map> maps = baseMapper.selectChargeListByKeyword(keyword, starttime, endtime, roomid, flag, sourceid, paytypeid);
 
         return new PageInfo<>(maps, 5);
     }

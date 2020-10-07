@@ -9,6 +9,7 @@ import com.xinggevip.dao.PaytypeMapper;
 import com.xinggevip.domain.Paytype;
 import com.xinggevip.service.PaytypeService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class PaytypeServiceImpl extends ServiceImpl<PaytypeMapper, Paytype> implements PaytypeService {
 
     @Override

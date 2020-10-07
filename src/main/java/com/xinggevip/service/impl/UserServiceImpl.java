@@ -11,6 +11,7 @@ import com.xinggevip.dao.UserMapper;
 import com.xinggevip.domain.User;
 import com.xinggevip.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Override

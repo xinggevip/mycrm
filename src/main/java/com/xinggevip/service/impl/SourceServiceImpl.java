@@ -8,6 +8,7 @@ import com.xinggevip.dao.SourceMapper;
 import com.xinggevip.domain.Source;
 import com.xinggevip.service.SourceService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.spec.PSource;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class SourceServiceImpl extends ServiceImpl<SourceMapper, Source> implements SourceService {
 
     @Override

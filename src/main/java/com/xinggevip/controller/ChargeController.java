@@ -50,8 +50,12 @@ public class ChargeController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping("{id}")
-    public int delete(@PathVariable("id") Long id){
-        return chargeService.delete(id);
+    public HttpResult delete(@PathVariable("id") Long id){
+        int res = chargeService.delete(id);
+        if (res != 1) {
+            return HttpResult.failure(ResultCodeEnum.DELETE_ERROR);
+        }
+        return HttpResult.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
     @ApiOperation(value = "更新")

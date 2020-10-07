@@ -53,6 +53,14 @@ public class Page implements Serializable {
     @ApiModelProperty(value = "房间id")
     private Integer roomid;
 
+    @ApiModelProperty(value = "支付方式id")
+    private Integer paytypeid;
+
+    @ApiModelProperty(value = "账单类型，0 不指定、1 充值、 2 其他消费、 3 房间消费")
+    private Integer flag;
+
+    @ApiModelProperty(value = "渠道id")
+    private Integer sourceid;
 
 
 }

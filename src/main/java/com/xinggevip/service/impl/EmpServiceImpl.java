@@ -9,6 +9,7 @@ import com.xinggevip.dao.EmpMapper;
 import com.xinggevip.domain.Emp;
 import com.xinggevip.service.EmpService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2020-10-02
  */
 @Service
+@Transactional
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements EmpService {
 
     @Override

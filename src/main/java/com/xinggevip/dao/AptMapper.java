@@ -17,4 +17,6 @@ import java.util.Map;
  */
 public interface AptMapper extends BaseMapper<Apt> {
     List<Map> selectAptListByKeyword(@Param("keyword") String keyword, @Param("status") Integer status);
+
+    Map selectAptById(@Param("id") Integer id);
 }
