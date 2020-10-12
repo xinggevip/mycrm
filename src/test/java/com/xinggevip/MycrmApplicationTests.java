@@ -194,6 +194,38 @@ class MycrmApplicationTests {
     }
 
 
+    @Test
+    void test9() {
+        Apt apt = aptService.getById(1);
+        Date starttime = apt.getStarttime();
+        Date endtime = apt.getEndtime();
+
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        long ns = 1000;
+        // 获得两个时间的毫秒时间差异
+        long diff = endtime.getTime() - starttime.getTime();
+        System.out.println(endtime);
+        // 计算差多少天
+        long day = diff / nd;
+        // 计算差多少小时
+        long hour = diff % nd / nh;
+        // 计算差多少分钟
+        long min = diff % nd % nh / nm;
+        // 计算差多少秒//输出结果
+        long sec = diff % nd % nh % nm / ns;
+        System.out.println(day + "天" + hour + "小时" + min + "分钟" + sec + "秒");
+
+        Long subRes = day * nd + hour * nh + min * nm + sec * ns;
+        // 把apt的开始时间更新为现在的时间
+        // 把结束时间更新为更新现在的时间加上相差的时间
+        Date date = new Date(new Date().getTime() + subRes);
+        System.out.println(date);
+
+
+    }
+
 
 
 }
